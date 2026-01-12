@@ -57,6 +57,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* Catch all route - redirects to home if path doesn't match */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
