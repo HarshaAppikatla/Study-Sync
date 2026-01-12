@@ -19,7 +19,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/Study-Sync">
       <div className="min-h-screen bg-gray-50">
         <Routes>
           <Route path="/" element={<LandingPage />} />
