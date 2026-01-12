@@ -1,0 +1,52 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.studysync:studysync-backend >-------------------
+[INFO] Building studysync-backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.10:prepare-agent (prepare-agent) @ studysync-backend ---
+[INFO] argLine set to "-javaagent:C:\\Users\\harsh\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.10\\org.jacoco.agent-0.8.10-runtime.jar=destfile=E:\\Studysync new\\studysync-backend\\target\\jacoco.exec"
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ studysync-backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ studysync-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 46 source files with javac [debug parameters release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[25,9] 'var' is not allowed here
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[28,9] illegal start of type
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[28,46] <identifier> expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[28,48] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[37,12] unnamed classes are a preview feature and are disabled by default.
+  (use --enable-preview to enable unnamed classes)
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[60,1] class, interface, enum, or record expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[1,1] unnamed class should not have package declaration
+[INFO] 7 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.897 s
+[INFO] Finished at: 2025-12-10T22:55:51+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile) on project studysync-backend: Compilation failure: Compilation failure: 
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[25,9] 'var' is not allowed here
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[28,9] illegal start of type
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[28,46] <identifier> expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[28,48] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[37,12] unnamed classes are a preview feature and are disabled by default.
+[ERROR]   (use --enable-preview to enable unnamed classes)
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[60,1] class, interface, enum, or record expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/service/AuthenticationService.java:[1,1] unnamed class should not have package declaration
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
