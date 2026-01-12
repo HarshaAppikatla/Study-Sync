@@ -1,75 +1,149 @@
-# Study-Sync
 
-**Study-Sync** is a comprehensive Learning Management System (LMS) designed to bridge the gap between students and tutors. It provides a seamless platform for course creation, enrollment, and progress tracking, featuring interactive dashboards and a robust course management engine.
+<div align="center">
 
-## 🚀 Features
+  <h1>📚 Study-Sync</h1>
+  
+  <p>
+    <strong>Next-Gen Learning Management System for the Modern Era</strong>
+  </p>
 
-### For Students
-- **Course Discovery**: Browse and search for courses across various categories.
-- **Interactive Dashboards**: Track learning progress, view enrolled courses, and manage personal profiles.
-- **Wishlist**: Save interesting courses for later.
-- **Engagement Tracking**: Visual learning streaks and activity heatmaps.
+  <p>
+    <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
+    <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot" />
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+    <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+  </p>
+  
+  <h3>
+    <a href="#-demo">View Demo</a>
+    <span> | </span>
+    <a href="#-getting-started">Getting Started</a>
+    <span> | </span>
+    <a href="#-features">Features</a>
+  </h3>
+</div>
 
-### For Tutors
-- **Course Creation**: Intuitive tools to create and publish courses with rich content.
-- **Module Management**: Organize course content into structured modules and lessons.
-- **Student Insights**: Monitor student enrollment and course performance.
+<br />
 
-### Core System Features
-- **Secure Authentication**: Role-based access control (RBAC) using JWT and Spring Security.
-- **Responsive Design**: Modern, glassmorphism-inspired UI built with React and Vite.
-- **File Management**: Secure upload and retrieval of course materials and user assets.
+## 📖 About The Project
 
-## 🛠️ Technology Stack
+**Study-Sync** reimagines the educational experience by seamlessly connecting ambitious students with expert tutors. Unlike traditional LMS platforms that feel clunky and outdated, Study-Sync is built with a **"Design First"** philosophy—ensuring that learning is not just functional, but beautiful, intuitive, and engaging.
 
-### Backend
-- **Java** (Spring Boot Framework)
-- **Spring Security** (JWT Authentication)
-- **Spring Data JPA**
-- **Maven** (Dependency Management)
+Whether you are a **Student** looked to master new skills or a **Tutor** aiming to share knowledge, Study-Sync provides the tailored tools you need in a modern, responsive interface.
 
-### Frontend
-- **React.js**
-- **Vite** (Build Tool)
-- **CSS3** (Custom Modern Styling & Animations)
-- **Axios** (API Integration)
+---
 
-## 📂 Project Structure
+## ✨ Key Features
 
-The project is organized into two main synchronized directories:
+### 🎓 For Students
+| Feature | Description |
+| :--- | :--- |
+| **🔍 Smart Discovery** | Effortlessly browse courses with advanced filtering and search capabilities. |
+| **📊 Interactive Dashboard** | Visual learner? Track your progress with dynamic heatmaps and learning streaks. |
+| **❤️ Wishlist System** | Save courses for later and build your own curriculum path. |
+| **👤 Profile Management** | Customize your learner profile and track your learning journey. |
 
-- **`studysync-backend/`**: The robust server-side application handling API requests, database interactions, and business logic.
-- **`studysync-frontend/`**: The dynamic client-side application providing the user interface and experience.
+### 👨‍🏫 For Tutors
+| Feature | Description |
+| :--- | :--- |
+| **✍️ Course Creator Studio** | A powerful suite to design courses, structure modules, and upload resources. |
+| **📈 Analytics & Insights** | (Coming Soon) Detailed metrics on student performance and course popularity. |
+| **📁 Resource Management** | Securely manage files, assignments, and supplementary materials. |
 
-## 🏁 Getting Started
+### 🛡️ System Core
+*   **Bank-Grade Security**: Full JWT implementation with Spring Security ensures data privacy.
+*   **Role-Based Access**: Distinct, secure portals for Admin, Tutors, and Students.
+*   **Responsive Design**: A fluid glassmorphism UI that works perfectly on Desktop, Tablet, and Mobile.
+
+---
+
+## 🛠️ Architecture & Tech Stack
+
+This project uses a decoupled Monolithic architecture for simplicity and performance.
+
+### **Backend (The Powerhouse)**
+*   **Language**: Java 17
+*   **Framework**: Spring Boot 3.x
+*   **Database**: MySQL / PostgreSQL
+*   **Security**: Spring Security + JWT
+*   **Build Tool**: Maven
+
+### **Frontend (The Experience)**
+*   **Framework**: React.js 18
+*   **Build Tool**: Vite (Blazing fast builds)
+*   **Styling**: Modern CSS3 with Glassmorphism effects & complex animations
+*   **State Management**: React Hooks (Context API)
+*   **HTTP Client**: Axios
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to get a local copy up and running.
 
 ### Prerequisites
-- Node.js & npm
-- Java Development Kit (JDK) 17+
-- MySQL (or configured database)
+
+*   **Java JDK 17+**
+*   **Node.js** (v18 or higher)
+*   **MySQL Database** running on port `3306`
 
 ### Installation
 
-1.  **Clone the repository**
+1.  **Clone the Repo**
     ```bash
     git clone https://github.com/HarshaAppikatla/Study-Sync.git
-    cd Study-Sync
     ```
 
-2.  **Setup Backend**
+2.  **Backend Setup**
     ```bash
-    cd studysync-backend
-    # Configure application.properties with your database credentials
+    cd Study-Sync/studysync-backend
+    # Update src/main/resources/application.properties with your DB creds
     mvn spring-boot:run
     ```
 
-3.  **Setup Frontend**
+3.  **Frontend Setup**
     ```bash
-    cd ../studysync-frontend
+    # Open a new terminal
+    cd Study-Sync/studysync-frontend
     npm install
     npm run dev
     ```
 
-## 🤝 Contribution
+4.  **Access the App**
+    *   Frontend: `http://localhost:5173`
+    *   Backend API: `http://localhost:8080`
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+---
+
+## 📸 Screen Previews
+
+> *Tip: Add screenshots here to show off your UI!*
+
+| **Student Dashboard** | **Course Details** |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/400x200?text=Dashboard+Screenshot" alt="Dashboard" /> | <img src="https://via.placeholder.com/400x200?text=Course+Details" alt="Details" /> |
+
+---
+
+## 🤝 Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+---
+
+## 📧 Contact
+
+**Harsha Appikatla** - [GitHub Profile](https://github.com/HarshaAppikatla)
+
+Project Link: [https://github.com/HarshaAppikatla/Study-Sync](https://github.com/HarshaAppikatla/Study-Sync)
+
+<div align="center">
+  <sub>Built with ❤️ by Harsha Appikatla</sub>
+</div>
