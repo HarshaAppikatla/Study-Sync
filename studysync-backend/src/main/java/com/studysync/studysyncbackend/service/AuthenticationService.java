@@ -12,9 +12,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationService {
 
         private final UserRepository userRepository;
@@ -22,8 +26,9 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
         private final UserActivityService userActivityService;
+        private final RefreshTokenService refreshTokenService;
 
-        public AuthenticationResponse register(RegisterRequest request) {
+        public AuthenticationResponse register(RegisterRequest request, String ipAddress, String deviceInfo) {
                 if (userRepository.findByEmail(request.getEmail()).isPresent()) {
                         throw new IllegalStateException("Email already in use");
                 }
@@ -36,24 +41,34 @@ public class AuthenticationService {
                                 .role(request.getRole() != null ? request.getRole() : Role.STUDENT)
                                 .build();
 
-                userRepository.save(user);
+                userRepository.save(Objects.requireNonNull(user));
                 userActivityService.logActivity(user.getId()); // Log initial activity
 
                 var jwtToken = jwtService.generateToken(user);
 
+                // Retrieve/Create Refresh Token
+                refreshTokenService.revokeByUser(user.getId());
+                var refreshToken = refreshTokenService.createRefreshToken(user.getId(), ipAddress, deviceInfo);
+
                 return AuthenticationResponse.builder()
                                 .token(jwtToken)
+                                .refreshToken(refreshToken)
                                 .id(user.getId())
                                 .username(user.getEmail())
                                 .role(user.getRole().name())
                                 .build();
         }
 
-        public AuthenticationResponse authenticate(AuthenticationRequest request) {
-                authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(
-                                                request.getEmail(),
-                                                request.getPassword()));
+        public AuthenticationResponse authenticate(AuthenticationRequest request, String ipAddress, String deviceInfo) {
+                try {
+                        authenticationManager.authenticate(
+                                        new UsernamePasswordAuthenticationToken(
+                                                        request.getEmail(),
+                                                        request.getPassword()));
+                } catch (org.springframework.security.core.AuthenticationException e) {
+                        log.warn("Failed login attempt for user: {}", request.getEmail());
+                        throw e; // Re-throw to be handled by Spring Security
+                }
 
                 var user = userRepository.findByEmail(request.getEmail())
                                 .orElseThrow(() -> new UsernameNotFoundException(
@@ -63,8 +78,13 @@ public class AuthenticationService {
 
                 var jwtToken = jwtService.generateToken(user);
 
+                // Retrieve/Create Refresh Token
+                refreshTokenService.revokeByUser(user.getId());
+                var refreshToken = refreshTokenService.createRefreshToken(user.getId(), ipAddress, deviceInfo);
+
                 return AuthenticationResponse.builder()
                                 .token(jwtToken)
+                                .refreshToken(refreshToken)
                                 .id(user.getId())
                                 .username(user.getEmail())
                                 .role(user.getRole().name())

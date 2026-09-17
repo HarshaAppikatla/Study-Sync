@@ -1,0 +1,65 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.studysync:studysync-backend >-------------------
+[INFO] Building studysync-backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ studysync-backend ---
+[INFO] Deleting E:\Studysync new\studysync-backend\target
+[INFO] 
+[INFO] --- jacoco:0.8.10:prepare-agent (prepare-agent) @ studysync-backend ---
+[INFO] argLine set to "-javaagent:C:\\Users\\harsh\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.10\\org.jacoco.agent-0.8.10-runtime.jar=destfile=E:\\Studysync new\\studysync-backend\\target\\jacoco.exec"
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ studysync-backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ studysync-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 81 source files with javac [debug parameters release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[88,98] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[89,74] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[99,60] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[100,74] <identifier> expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[101,25] illegal start of expression
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[101,38] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[101,47] <identifier> expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[102,25] illegal start of expression
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[102,37] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[102,61] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[146,59] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[146,81] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[153,2] reached end of file while parsing
+[INFO] 13 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  9.276 s
+[INFO] Finished at: 2026-02-08T17:32:04+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.0:compile (default-compile) on project studysync-backend: Compilation failure: Compilation failure: 
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[88,98] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[89,74] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[99,60] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[100,74] <identifier> expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[101,25] illegal start of expression
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[101,38] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[101,47] <identifier> expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[102,25] illegal start of expression
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[102,37] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[102,61] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[146,59] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[146,81] ';' expected
+[ERROR] /E:/Studysync new/studysync-backend/src/main/java/com/studysync/studysyncbackend/controller/DiscussionController.java:[153,2] reached end of file while parsing
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
