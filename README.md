@@ -19,7 +19,7 @@
   <h3>
     <a href="#-about-the-project">About</a>
     <span> · </span>
-    <a href="#-active-development-peer-mentorship-system">Peer Mentorship (In Dev)</a>
+    <a href="#-peer-to-peer-mentorship-system">Peer Mentorship</a>
     <span> · </span>
     <a href="#-architecture--tech-stack">Architecture</a>
     <span> · </span>
@@ -50,47 +50,46 @@ StudySync bridges this gap by unifying:
 
 ---
 
-## 🚧 Active Development: Peer-to-Peer Mentorship System
+## 🤝 Peer-to-Peer Mentorship System
 
-> **Current Sprint:** We are currently implementing a **Verified Peer-to-Peer Mentorship Engine** with an **Anti-Collusion Token Economy** to transform StudySync from a static video portal into an active academic community.
+> **Feature Highlight:** A verified **Peer-to-Peer Mentorship Engine** backed by an **Anti-Collusion Token Economy**, forensic transcript verification, and live study room telemetry to transform StudySync into an active academic community.
 
 ### 💡 Why Is This Feature Important?
 
 * **The Problem with Video-Only Platforms:** Recorded lectures are great for broad concepts, but when students get stuck on complex coding assignments, mathematical proofs, or exam preparation, static videos fail.
 * **The Solution (Verified Senior Guidance):** Connect juniors directly with seniors who achieved top grades (A / S grade) in that exact course for live 1-on-1 tutoring, code review, and exam strategy sessions.
 
-
-```
-
-```
+```text
    [Junior Student]                                   [Verified Senior Mentor]
-
-```
-
 (Struggling with Course)                             (Scored 'A' Grade in Course)
-│                                                      │
-│─── 1. Books 1-on-1 Live Session (Escrow Hold) ──────>│
-│                                                      │
-│<── 2. Live WebSocket Study Room (Shared Whiteboard)─>│
-│                                                      │
-└─── 3. Session End & Rating ──> [Escrow Releases Tokens - 15% Burn]
-
+        │                                                      │
+        │─── 1. Books 1-on-1 Live Session (Escrow Hold) ──────>│
+        │                                                      │
+        │<── 2. Live WebSocket Study Room (Active Telemetry) ─>│
+        │                                                      │
+        └─── 3. Session End & Rating ──> [Escrow Releases Tokens - 15% Platform Burn]
 ```
 
 ### 🛡️ How We Solve Grade Forgery & Review Abuse
 
 A major challenge in peer-to-peer tutoring is **unqualified mentors uploading fake grade sheets** or **friends colluding to farm fake reviews/tokens**. Our architecture resolves these exact issues:
 
-#### 1. Cryptographic Grade Verification
-* **PDF Digital Signature Validation:** Uses `Apache PDFBox` to inspect uploaded university transcripts for official cryptographic digital signatures. Any edits made in tools like Canva or Photoshop invalidate the PDF signature and trigger an instant auto-rejection.
-* **Metadata & Forensic Inspection:** Backend scanners automatically detect and flag files created or modified by graphics editing software (`Canva`, `Adobe Photoshop`, `GIMP`).
+#### 1. Cryptographic Grade Verification & Forensic Tamper Auditing
+* **Apache PDFBox Metadata Inspection:** Automatically scans uploaded university transcripts for digital editing signatures (`Canva`, `Adobe Photoshop`, `GIMP`, `Inkscape`). Any tampered file is automatically flagged for administrative review.
+* **SHA-256 Cryptographic Fingerprint:** Prevents duplicate transcript uploads across different accounts while ensuring raw documents remain isolated.
 
 #### 2. Anti-Collusion Token Economics
-* **Platform Token Burn (15% Commission Fee):** Every session deducts a 15% non-refundable platform fee upon completion. If friends try to repeatedly cycle tokens back and forth to fake reviews, their token balance rapidly decays, making collusion financially expensive.
+* **Platform Token Burn (15% Commission Fee):** Every session deducts a 15% non-refundable platform fee upon completion. If colluding accounts repeatedly cycle tokens to fake reviews, their token balances decay rapidly.
 * **Diminishing Pairwise Weighting:** Ratings decay mathematically when repeatedly given between the exact same pair of users:
   $$\text{Rating Weight} = \frac{1}{\text{Previous Sessions Between Pair}}$$
-* **Unique Mentee Thresholds:** Mentors must achieve high ratings across a minimum of **5 distinct mentees** before unlocking top-rated badges or cash-out privileges.
-* **Escrow-Backed Payouts:** Session tokens remain locked in a `TokenEscrow` state until the session finishes, a minimum 20-minute active WebSocket interaction is verified, and the mentee submits a positive rating.
+* **Unique Mentee Thresholds:** Mentors must achieve positive ratings across a minimum of **5 distinct mentees** before unlocking top-rated badges or cash-out privileges.
+* **Escrow-Backed Payouts:** Session tokens remain locked in `TokenEscrow` until the session finishes, a minimum 20-minute active WebSocket interaction is verified, and the mentee confirms completion.
+
+#### 3. 4-Layer Student Trust & Security Framework
+* **Psychological Safety & Microcopy:** Explicit 256-bit encryption badges and clear guarantees that CGPA, student registration IDs, and other semester marks are strictly isolated and never displayed on public mentor profiles.
+* **Automated Digital Watermarking:** Administrative inspection sheets are automatically watermarked with *"FOR STUDY SYNC VERIFICATION ONLY"*.
+* **Cryptographic Verification Receipts:** Approved credentials lock an immutable receipt in the database.
+* **30-Day Auto-Purge Scheduler:** A Spring Boot scheduled cron job (`@Scheduled(cron = "0 0 2 * * ?")`) automatically purges physical PDF binaries from disk 30 days post-verification while retaining cryptographic receipts forever.
 
 ---
 
@@ -98,30 +97,27 @@ A major challenge in peer-to-peer tutoring is **unqualified mentors uploading fa
 
 StudySync adopts a decoupled **3-Tier Client-Server Architecture** designed for high developer velocity, strict relational integrity, and real-time collaboration:
 
-
-```
-
+```text
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        Presentation Layer (Frontend)                   │
 │          React 19 SPA • Vite • Tailwind CSS 4 • Framer Motion          │
 │               Recharts • Lucide Icons • STOMP WebSocket Client         │
 └───────────────────────────────────┬────────────────────────────────────┘
-│ HTTP REST / WebSocket (JWT Auth)
-▼
+                                    │ HTTP REST / WebSocket (JWT Auth)
+                                    ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │                        Application Layer (Backend)                     │
 │               Spring Boot 3.5+ • Spring Security 6 • WebSockets        │
 │          Spring Data JPA (Hibernate) • PDFBox Cryptographic Validator  │
 │               iText PDF Engine • Bucket4j Rate Limiter                 │
 └───────────────────┬────────────────────────────────┬───────────────────┘
-│                                │
-▼                                ▼
+                    │                                │
+                    ▼                                ▼
 ┌─────────────────────────────┐   ┌───────────────────────────────┐
 │      Persistence Layer      │   │     External Cloud Services   │
 │      MySQL 8 / H2 Memory    │   │ • Cloudinary (Media Hosting)  │
 │ ACID Relational Constraints │   │ • SMTP Mail Service           │
 └─────────────────────────────┘   └───────────────────────────────┘
-
 ```
 
 ### **Backend (Core Engine)**
@@ -129,21 +125,22 @@ StudySync adopts a decoupled **3-Tier Client-Server Architecture** designed for 
 - **Real-Time Messaging:** Spring WebSockets with STOMP protocol
 - **Security:** Spring Security + Stateless JWT + Persistent Refresh Token Rotation
 - **Data Access:** Spring Data JPA with Hibernate ORM
-- **Database:** MySQL 8.0 (Production) with H2 In-Memory fallback for testing
+- **Database:** MySQL 8.0 (Production) with zero-config H2 In-Memory fallback for testing
 - **Verification Engine:** Apache PDFBox for digital signature and transcript forensic analysis
+- **Document Processing:** iText / Lowagie for verifiable PDF certificate generation
 
 ### **Frontend (User Interface)**
 - **Framework:** React 19 bootstrapped with Vite
 - **Styling:** Tailwind CSS 4 with glassmorphism design system & complex animations
 - **Data Visualization:** Recharts for analytics heatmaps and student performance trends
-- **Real-Time Client:** `@stomp/stompjs` for live study rooms & mentorship messaging
+- **Real-Time Client:** `@stomp/stompjs` for live study rooms & mentorship telemetry
 
 ---
 
 ## ✨ Role-Based Features
 
 ### 🎓 1. For Students & Mentees
-- **Peer Mentorship Discovery:** Search for verified seniors by course code, rating, and availability. Book live 1-on-1 tutoring sessions.
+- **Peer Mentorship Discovery:** Search for verified seniors by course code, department, rating, and hourly rate. Book live 1-on-1 tutoring sessions with escrow protection.
 - **Smart Discovery & Multi-Filter Search:** Filter through approved courses by category, difficulty level (Beginner/Intermediate/Advanced), price range, and tutor ratings.
 - **Side-by-Side Course Comparison:** Directly compare up to 3 courses simultaneously across price, curriculum depth, prerequisites, and learner ratings.
 - **Interactive Course Player:** Auto-resumes playback from the exact second last watched, renders inline PDF guides, and tracks module progress.
@@ -152,12 +149,16 @@ StudySync adopts a decoupled **3-Tier Client-Server Architecture** designed for 
 - **Verifiable PDF Certificates:** Upon 100% course completion, generate and download an official certificate with a unique tamper-proof UUID code.
 
 ### 🧑‍🏫 2. For Verified Mentors & Tutors
-- **Transcript Verification Portal:** Upload official semester grade reports for automated digital signature validation and administrative clearance.
+- **Transcript Verification Portal:** Upload official semester grade reports with 30-day auto-purge protection and SHA-256 receipts.
 - **Tutor Studio:** Dedicated authoring workspace for drafting, editing, and publishing curriculum (Cloudinary video URLs, PDF download links, and descriptions).
+- **Live Study Room:** Real-time collaborative session room with active duration heartbeat tracking.
 - **Mentorship Escrow Wallet:** Track pending vs. released study tokens, active sessions, and mentee feedback analytics.
 
 ### 🛡️ 3. For Administrators
-- **Verification Queue & Course Moderation:** Inspect submitted course drafts and flagged mentor grade transcripts before approving publication.
+- **Admin Governance Dashboard:** Complete manual override and forensic audit workstation:
+  - **Flagged Transcript Review Queue:** Inspect Apache PDFBox forensic anomalies and approve or reject submissions.
+  - **Document Inspection Workstation:** View official academic record sheets with zoom, print, and watermarking.
+  - **Disputed Escrow Session Audit:** Investigate reported sessions and execute manual token resolutions (`REFUND_MENTEE` or `RELEASE_MENTOR`).
 - **User Governance:** Search platform users, modify roles (`STUDENT`, `MENTOR`, `TUTOR`, `ADMIN`), and instantly enforce access revocation on abusive accounts.
 - **Platform Switchboard:** Toggle global maintenance mode and broadcast platform-wide notification banners.
 
@@ -165,34 +166,35 @@ StudySync adopts a decoupled **3-Tier Client-Server Architecture** designed for 
 
 ## ⚡ Technical Highlights
 
-### 1. Cryptographic PDF Signature Inspection
-Prevents grade forgery by examining the internal digital certificate signatures embedded in university grade PDFs (`Apache PDFBox`). Any post-export editing in graphics software invalidates the signature layer, causing the backend to flag the upload as tampered.
+### 1. Cryptographic PDF Signature & Metadata Inspection
+Prevents grade forgery by inspecting metadata streams and creator signatures in uploaded university transcripts (`Apache PDFBox`). Any post-export editing in graphics software (Canva, Photoshop, GIMP) invalidates the signature layer, causing the backend to flag the upload as tampered.
 
-### 2. Anti-Collusion Decay & Escrow Engine
-Session payments are placed in a `TokenEscrow` state. Payouts are delayed until session telemetry validates a minimum 20-minute active WebSocket connection. The backend dynamically decays rating weights for repeat mentor-mentee pairs to prevent rating ring manipulations.
+### 2. Anti-Collusion Decay & Token Escrow Engine
+Session payments are held in a pessimistic write-locked `TokenEscrow`. Payouts are delayed until session telemetry validates a minimum 20-minute active WebSocket connection. The backend dynamically decays rating weights for repeat mentor-mentee pairs to prevent rating ring manipulations.
 
-### 3. Throttled Video Progress Synchronization
+### 3. Automated 30-Day Retention Purge & Cryptographic Receipts
+A scheduled Spring Boot cron job runs daily at 2:00 AM to automatically delete physical PDF binaries from storage after 30 days while locking immutable receipts in the database, ensuring student privacy without sacrificing auditability.
+
+### 4. Throttled Video Progress Synchronization
 Instead of blasting the backend API on every player tick (which occurs every 100ms and would flood the database under high concurrency), StudySync implements a **5% threshold sync throttle**. Progress updates are dispatched to the server only when significant progress occurs, reducing database write operations by over 95%.
 
-### 4. Instant Token Revocation for Banned Users
+### 5. Instant Token Revocation for Banned Users
 StudySync enhances the `JwtAuthenticationFilter` with database-level `isAccountNonLocked()` checks on incoming requests, ensuring banned accounts are blocked instantly even if their JWT token is technically unexpired.
 
 ---
 
 ## 📂 Repository Structure
 
-
-```
-
+```text
 Study-Sync/
 ├── studysync-backend/               # Spring Boot 3 Java Application
-│   ├── src/main/java/com/studysync/
-│   │   ├── config/                  # SecurityConfig, WebSocketConfig, JwtAuthFilter, CloudinaryConfig
-│   │   ├── controller/              # Auth, Course, Mentorship, Quiz, Admin
+│   ├── src/main/java/com/studysync/studysyncbackend/
+│   │   ├── config/                  # SecurityConfig, WebSocketConfig, JwtAuthFilter, DataInitializer
+│   │   ├── controller/              # Auth, Course, Mentorship, AdminMentorship, Quiz, Notifications
 │   │   ├── dto/                     # Request and Response Data Transfer Objects
-│   │   ├── model/                   # JPA Entities (User, MentorVerification, MentorshipSession, TokenEscrow, etc.)
+│   │   ├── model/                   # JPA Entities (User, MentorVerification, MentorVerificationReceipt, MentorshipSession, TokenEscrow)
 │   │   ├── repository/              # Spring Data JPA Repositories
-│   │   └── service/                 # Core LMS, Verification, & Anti-Collusion Logic
+│   │   └── service/                 # MentorshipService, PdfVerificationService, RetentionScheduler, Escrow Logic
 │   ├── src/main/resources/
 │   │   └── application.properties   # Database, JWT, Cloudinary & Mail configurations
 │   ├── pom.xml                      # Maven Dependencies & Build Setup
@@ -200,8 +202,11 @@ Study-Sync/
 │
 ├── studysync-frontend/              # React 19 + Vite Application
 │   ├── src/
-│   │   ├── components/              # VideoPlayer, MentorshipCard, LiveStudyRoom, QuizPlayer
-│   │   ├── pages/                   # Dashboard, MentorshipHub, TutorStudio, AdminDashboard
+│   │   ├── components/
+│   │   │   ├── admin/               # AdminGovernanceDashboard (Forensic inspection, disputes)
+│   │   │   ├── mentorship/          # MentorDiscovery, TranscriptUploadModal, BookSessionModal, LiveStudyRoomModal
+│   │   │   └── VideoPlayer.jsx      # Video playback, Quizzes, Sidebar
+│   │   ├── pages/                   # MentorshipPage, Dashboard, TutorStudio, AdminDashboard
 │   │   ├── services/api.js          # Axios client with JWT interceptor & auto-logout
 │   │   ├── App.jsx                  # React Router setup & maintenance guards
 │   │   └── index.css                # Tailwind CSS v4 styling rules
@@ -209,7 +214,6 @@ Study-Sync/
 │   └── vite.config.js               # Vite configurations
 │
 └── README.md                        # Project documentation
-
 ```
 
 ---
@@ -219,7 +223,7 @@ Study-Sync/
 ### Prerequisites
 - **Java Development Kit (JDK):** Version 17+ (JDK 21 or 25 recommended)
 - **Node.js:** v18.x or higher (npm v9+)
-- **Database:** MySQL 8.x (the project is configured with H2 in-memory mode out of the box for instant zero-configuration testing!)
+- **Database:** MySQL 8.x *(Configured with zero-config H2 in-memory mode out of the box for instant local development!)*
 
 ---
 
@@ -228,57 +232,44 @@ Study-Sync/
 1. Navigate to the backend directory:
    ```bash
    cd studysync-backend
-
-```
+   ```
 
 2. *(Optional)* Configure your database credentials in `src/main/resources/application.properties` if connecting to an external MySQL instance:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/studysync
-spring.datasource.username=root
-spring.datasource.password=your_password
-
-```
-
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/studysync
+   spring.datasource.username=root
+   spring.datasource.password=your_password
+   ```
 
 3. Run the application using the Maven wrapper:
-```bash
-# On Windows (PowerShell / Command Prompt)
-.\mvnw.cmd spring-boot:run
+   ```bash
+   # On Windows (PowerShell / Command Prompt)
+   .\mvnw.cmd spring-boot:run
 
-# On Linux / macOS
-./mvnw spring-boot:run
-
-```
-
-
-*The backend will boot up at `http://localhost:8080`.*
+   # On Linux / macOS
+   ./mvnw spring-boot:run
+   ```
+   *The backend will boot up at `http://localhost:8080`.*
 
 ---
 
 ### Step 2: Start the Frontend
 
 1. Open a new terminal and navigate to the frontend directory:
-```bash
-cd studysync-frontend
-
-```
-
+   ```bash
+   cd studysync-frontend
+   ```
 
 2. Install dependencies:
-```bash
-npm install
-
-```
-
+   ```bash
+   npm install
+   ```
 
 3. Start the Vite development server:
-```bash
-npm run dev
-
-```
-
-
-*The frontend will launch at `http://localhost:5173`.*
+   ```bash
+   npm run dev
+   ```
+   *The frontend will launch at `http://localhost:5173`.*
 
 ---
 
@@ -287,21 +278,25 @@ npm run dev
 On startup, the system automatically bootstraps demo accounts and sample data into the database:
 
 | Role | Email | Password | Access Rights |
-| --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | **Student** | `user@studysync.com` | `password` | Course enrollment, video player, mentorship booking, quizzes, badges |
 | **Tutor** | `tutor@studysync.com` | `password` | Tutor Studio, course creation, module uploads, quiz authoring |
-| **Admin** | *(Assign via DB or register)* | — | Course & transcript approvals, user role management, maintenance mode |
+| **Admin** | `admin@studysync.com` | `password` | Governance Dashboard, forensic transcript audits, escrow dispute resolution |
 
 ---
 
 ## 🌐 Key API Routes
 
 | Endpoint | Method | Role | Status | Description |
-| --- | --- | --- | --- | --- |
+| :--- | :---: | :---: | :---: | :--- |
 | `/api/auth/authenticate` | `POST` | Public | ✅ Active | Login & obtain JWT token |
-| `/api/v1/mentorship/verify` | `POST` | Student | 🚧 In Dev | Upload transcript PDF for digital verification |
-| `/api/v1/mentorship/sessions/book` | `POST` | Student | 🚧 In Dev | Book 1-on-1 session with escrow hold |
-| `/api/v1/mentorship/sessions/{id}/complete` | `POST` | Mentor/Mentee | 🚧 In Dev | End session, submit rating, & trigger token release |
+| `/api/v1/mentorship/verify` | `POST` | Student | ✅ Active | Upload transcript PDF for forensic digital verification |
+| `/api/v1/mentorship/sessions/book` | `POST` | Student | ✅ Active | Book 1-on-1 session with escrow hold |
+| `/api/v1/mentorship/sessions/complete` | `POST` | Student | ✅ Active | Complete session, verify duration & trigger 15% burned release |
+| `/api/v1/admin/mentorship/transcripts/flagged` | `GET` | Admin | ✅ Active | Retrieve flagged & pending transcripts for review |
+| `/api/v1/admin/mentorship/transcripts/{id}/review` | `PUT` | Admin | ✅ Active | Approve/reject transcript and lock cryptographic receipt |
+| `/api/v1/admin/mentorship/sessions/disputed` | `GET` | Admin | ✅ Active | Audit disputed escrow sessions & WebSocket duration logs |
+| `/api/v1/admin/mentorship/sessions/{id}/resolve-dispute` | `PUT` | Admin | ✅ Active | Execute manual refund to mentee or release to mentor |
 | `/api/courses` | `GET` | Authenticated | ✅ Active | Browse approved courses catalog |
 | `/api/certificates/verify/{code}` | `GET` | Public | ✅ Active | Verify certificate validity by UUID |
 
@@ -311,17 +306,15 @@ On startup, the system automatically bootstraps demo accounts and sample data in
 
 Any completion certificate contains a verifiable link in the format:
 
-```
+```text
 http://localhost:5173/verify/{CERTIFICATE_UUID}
-
 ```
 
 The public verification endpoint performs a zero-trust database lookup to confirm:
-
-* **Student Name**
-* **Course Name**
-* **Graduation / Completion Date**
-* **Authenticity Seal**
+- **Student Name**
+- **Course Name**
+- **Graduation / Completion Date**
+- **Authenticity Seal**
 
 ---
 
@@ -331,26 +324,17 @@ Contributions are warmly welcomed! To get started:
 
 1. Fork the project repository.
 2. Create your Feature Branch:
-```bash
-git checkout -b feature/AmazingFeature
-
-```
-
-
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
 3. Commit your Changes:
-```bash
-git commit -m 'Add: AmazingFeature'
-
-```
-
-
+   ```bash
+   git commit -m 'Add: AmazingFeature'
+   ```
 4. Push to your Branch:
-```bash
-git push origin feature/AmazingFeature
-
-```
-
-
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
 5. Open a Pull Request.
 
 ---
