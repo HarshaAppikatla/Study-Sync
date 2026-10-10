@@ -13,12 +13,24 @@
     <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
     <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" /></a>
-    <a href="https://study-sync-liart-three.vercel.app"><img src="https://img.shields.io/badge/Vercel-Live_App-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" /></a>
-    <a href="https://studysync-backend-jlti.onrender.com"><img src="https://img.shields.io/badge/Render-Live_API-46E3B7?style=for-the-badge&logo=render&logoColor=black" alt="Render" /></a>
+  <p>
+    <a href="https://study-sync-liart-three.vercel.app/" target="_blank">
+      <img src="https://img.shields.io/badge/🚀_Live_Demo-Launch_StudySync-4F46E5?style=for-the-badge&logo=vercel&logoColor=white" alt="Launch Live App" />
+    </a>
+    &nbsp;&nbsp;
+    <a href="https://studysync-backend-jlti.onrender.com/api/system/settings" target="_blank">
+      <img src="https://img.shields.io/badge/⚡_API_Status-Online-059669?style=for-the-badge&logo=render&logoColor=white" alt="API Status" />
+    </a>
   </p>
 
   <p>
-    🌐 <strong>Live Application:</strong> <a href="https://study-sync-liart-three.vercel.app/">https://study-sync-liart-three.vercel.app/</a> &nbsp;|&nbsp; ⚡ <strong>Backend API:</strong> <a href="https://studysync-backend-jlti.onrender.com/api/system/settings">https://studysync-backend-jlti.onrender.com</a>
+    <a href="https://github.com/HarshaAppikatla/Study-Sync"><img src="https://img.shields.io/badge/Java-21%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" /></a>
+    <a href="https://spring.io/projects/spring-boot"><img src="https://img.shields.io/badge/Spring_Boot-3.5+-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot" /></a>
+    <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" /></a>
+    <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+    <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" /></a>
+    <a href="https://jwt.io/"><img src="https://img.shields.io/badge/JWT-Secure_Auth-black?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT" /></a>
   </p>
   
   <h3>
@@ -39,6 +51,15 @@
 </div>
 
 <br />
+
+> [!TIP]
+> ### 🌐 Quick Live Access & Interactive Demo
+> | Service | Status | Link | Note |
+> | :--- | :---: | :--- | :--- |
+> | **Frontend Web Application** | 🟢 **Live** | [👉 **Launch StudySync App**](https://study-sync-liart-three.vercel.app/) | Hosted on Vercel |
+> | **Spring Boot REST API** | 🟢 **Healthy** | [🔌 **View API Status Endpoint**](https://studysync-backend-jlti.onrender.com/api/system/settings) | Hosted on Render |
+> 
+> **🔑 Demo Credentials:** `user@studysync.com` / `password` (Student) &nbsp;|&nbsp; `admin@studysync.com` / `password` (Admin)
 
 ---
 
