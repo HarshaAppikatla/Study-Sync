@@ -23,6 +23,7 @@ public class DiscussionController {
         private final com.studysync.studysyncbackend.repository.ModuleRepository moduleRepository;
         private final com.studysync.studysyncbackend.repository.EnrollmentRepository enrollmentRepository;
         private final com.studysync.studysyncbackend.service.EmailService emailService;
+        private final com.studysync.studysyncbackend.service.NotificationService notificationService;
 
         @GetMapping("/module/{moduleId}")
         public ResponseEntity<List<Discussion>> getModuleDiscussions(
@@ -138,7 +139,7 @@ public class DiscussionController {
 
                 Discussion savedReply = discussionRepository.save(replyRequest);
 
-                // Send Email Notification to the parent author (if not self-reply)
+                // Send Notification & Email to the parent author (if not self-reply)
                 if (!parent.getUser().getId().equals(user.getId())) {
                         try {
                                 String threadTitle = parent.getContent();
@@ -149,6 +150,15 @@ public class DiscussionController {
                                                 parent.getUser().getEmail(),
                                                 parent.getUser().getFirstName(),
                                                 threadTitle);
+
+                                String replierName = user.getFirstName() != null ? user.getFirstName() : "A user";
+                                notificationService.sendNotification(
+                                                parent.getUser(),
+                                                "New Discussion Reply 💬",
+                                                replierName + " replied to your post: \"" + threadTitle + "\"",
+                                                "DISCUSSION_REPLY",
+                                                "/course/" + parent.getCourseId()
+                                );
                         } catch (Exception e) {
                                 System.err.println("Failed to send reply notification: " + e.getMessage());
                         }

@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import AdminGovernanceDashboard from '../components/admin/AdminGovernanceDashboard';
 import { getAdminUsers, updateUserRole, updateUserStatus, getAdminCourses, approveCourse, rejectCourse, getCurrentUser, getAllDiscussions, toggleHideDiscussion, getSystemSettings, updateSystemSettings, deleteCourseAdmin, getFinancialStats } from '../services/api';
 import { Users, BookOpen, Check, X, Shield, AlertTriangle, UserX, UserCheck, MessageSquare, Eye, EyeOff, Settings as SettingsIcon, Save, Trash2, Filter, ExternalLink, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -538,6 +539,10 @@ const AdminDashboard = () => {
                                     </div>
                                 </form>
                             </div>
+                        )}
+
+                        {activeTab === 'governance' && (
+                            <AdminGovernanceDashboard />
                         )}
                     </>
                 )}

@@ -15,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @org.springframework.data.jpa.repository.Query("SELECT u, COUNT(e) as enrollmentCount FROM User u JOIN Course c ON c.tutor = u JOIN Enrollment e ON e.course = c GROUP BY u ORDER BY enrollmentCount DESC")
     java.util.List<Object[]> findTopTutorsByEnrollments();
+
+    @org.springframework.data.jpa.repository.Lock(jakarta.persistence.LockModeType.PESSIMISTIC_WRITE)
+    @org.springframework.data.jpa.repository.Query("SELECT u FROM User u WHERE u.id = :id")
+    Optional<User> findByIdWithLock(@org.springframework.data.repository.query.Param("id") Long id);
 }

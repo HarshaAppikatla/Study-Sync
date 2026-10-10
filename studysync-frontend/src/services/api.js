@@ -336,4 +336,63 @@ export const verifyCertificate = async (code) => {
     return response.data;
 };
 
+// --- Notification Context ---
+export const getNotifications = async () => {
+    const response = await api.get('/notifications');
+    return response.data; // { notifications: [...], unreadCount: N }
+};
+
+export const markNotificationRead = async (id) => {
+    await api.put(`/notifications/${id}/read`);
+};
+
+export const markAllNotificationsRead = async () => {
+    await api.put('/notifications/read-all');
+};
+
+// --- Mentorship & Anti-Collusion Context ---
+export const getVerifiedMentors = async () => {
+    const response = await api.get('/v1/mentorship/mentors');
+    return response.data;
+};
+
+export const getMentorRating = async (mentorId) => {
+    const response = await api.get(`/v1/mentorship/mentors/${mentorId}/rating`);
+    return response.data;
+};
+
+export const uploadTranscript = async (formData) => {
+    const response = await api.post('/v1/mentorship/verify', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+};
+
+export const bookMentorshipSession = async (menteeId, bookingData) => {
+    const response = await api.post(`/v1/mentorship/sessions/book?menteeId=${menteeId}`, bookingData);
+    return response.data;
+};
+
+export const completeMentorshipSession = async (userId, completionData) => {
+    const response = await api.post(`/v1/mentorship/sessions/complete?userId=${userId}`, completionData);
+    return response.data;
+};
+
+export const getMyMentorshipSessions = async (userId) => {
+    const response = await api.get(`/v1/mentorship/sessions/my?userId=${userId}`);
+    return response.data;
+};
+
+export const getMyVerifications = async (userId) => {
+    const response = await api.get(`/v1/mentorship/verifications/my?userId=${userId}`);
+    return response.data;
+};
+
+export const reviewVerification = async (verificationId, status, rejectionReason) => {
+    const response = await api.put(`/v1/mentorship/verifications/${verificationId}/review`, null, {
+        params: { status, rejectionReason }
+    });
+    return response.data;
+};
+
 export default api;

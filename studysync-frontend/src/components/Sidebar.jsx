@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, BookOpen, Heart, Settings, LogOut, GraduationCap, BarChart2, Trophy, Sparkles, Shield, MessageSquare, Users } from 'lucide-react';
+import { Home, BookOpen, Heart, Settings, LogOut, GraduationCap, BarChart2, Trophy, Sparkles, Shield, ShieldAlert, MessageSquare, Users } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { logout } from '../services/api';
 
@@ -17,6 +17,7 @@ const Sidebar = ({ activeTab, setActiveTab, userRole, user }) => {
         // Student Items
         ...(userRole === 'STUDENT' ? [
             { id: 'explore', label: 'Explore Courses', icon: BookOpen },
+            { id: 'mentorship', label: 'Peer Mentorship', icon: Users, isExternal: true, path: '/mentorship' },
             { id: 'leaderboard', label: 'Hall of Fame', icon: Trophy, isExternal: true, path: '/leaderboard' },
             { id: 'analytics', label: 'Analytics', icon: BarChart2 },
             { id: 'my-courses', label: 'My Learning', icon: GraduationCap },
@@ -24,6 +25,7 @@ const Sidebar = ({ activeTab, setActiveTab, userRole, user }) => {
         ] : []),
         // Tutor Items
         ...(userRole === 'TUTOR' ? [
+            { id: 'mentorship', label: 'Peer Mentorship', icon: Users, isExternal: true, path: '/mentorship' },
             { id: 'tutor-studio', label: 'Tutor Studio', icon: Sparkles, role: 'TUTOR', isExternal: true, path: '/tutor-studio' },
             { id: 'tutor-leaderboard', label: 'Top Instructors', icon: Trophy, isExternal: true, path: '/tutor-leaderboard' }
         ] : []),
@@ -32,6 +34,7 @@ const Sidebar = ({ activeTab, setActiveTab, userRole, user }) => {
             { id: 'overview', label: 'Dashboard', icon: BarChart2 },
             { id: 'users', label: 'User Management', icon: Users },
             { id: 'courses', label: 'Course Approvals', icon: Shield },
+            { id: 'governance', label: 'Peer Governance', icon: ShieldAlert },
             { id: 'community', label: 'Community', icon: MessageSquare },
             { id: 'financials', label: 'Financials', icon: Trophy },
             { id: 'settings', label: 'System Settings', icon: Settings }

@@ -10,6 +10,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.studysync.studysyncbackend.model.MentorVerification;
+import com.studysync.studysyncbackend.model.enums.VerificationStatus;
+import com.studysync.studysyncbackend.repository.MentorVerificationRepository;
+import com.studysync.studysyncbackend.service.AdminMentorshipService;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -20,6 +24,8 @@ public class DataInitializer {
         private final UserRepository userRepository;
         private final CourseRepository courseRepository;
         private final PasswordEncoder passwordEncoder;
+        private final MentorVerificationRepository mentorVerificationRepository;
+        private final AdminMentorshipService adminMentorshipService;
         private final org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
 
         @Bean
@@ -57,6 +63,7 @@ public class DataInitializer {
                         user.setLastName("User");
                         user.setPassword(passwordEncoder.encode("password")); // Reset password
                         user.setRole(Role.STUDENT);
+                        user.setTokens(150);
 
                         userRepository.save(Objects.requireNonNull(user));
                         System.out.println("Standard user updated/created: " + userEmail + " / password");
@@ -74,6 +81,7 @@ public class DataInitializer {
                         tutor.setLastName("Tutor");
                         tutor.setPassword(passwordEncoder.encode("password")); // Reset password
                         tutor.setRole(Role.TUTOR);
+                        tutor.setTokens(50);
 
                         userRepository.save(Objects.requireNonNull(tutor));
                         System.out.println("Dedicated tutor updated/created: " + tutorEmail + " / password");
@@ -98,6 +106,46 @@ public class DataInitializer {
                         demoCourse.setApprovalStatus(com.studysync.studysyncbackend.model.ApprovalStatus.APPROVED);
                         courseRepository.save(demoCourse);
                         System.out.println("Ensured demo course is published: " + demoTitle);
+
+                        // Seed Verified Peer Mentors for Mentorship System
+                        seedMentorUser("aarav@studysync.com", "Aarav", "Sharma", "Computer Science & Engineering", "CSE2001", "S", "hash-aarav-cse2001");
+                        seedMentorUser("priya@studysync.com", "Priya", "Nair", "Information Technology", "DSA", "S", "hash-priya-dsa");
+                        seedMentorUser("rohan@studysync.com", "Rohan", "Verma", "Data Science & AI", "CSE1002", "A+", "hash-rohan-cse1002");
+                        seedMentorUser("tutor@studysync.com", "Dedicated", "Tutor", "Computer Science", "JAVA101", "S", "hash-tutor-java101");
+                        seedMentorUser("tutor@studysync.com", "Dedicated", "Tutor", "Computer Science", "MAT2001", "A", "hash-tutor-mat2001");
+
+                        // Seed Sample Flagged Transcripts, Pending Verifications, and Disputed Escrows for Admin Dashboard
+                        adminMentorshipService.seedSampleAdminData();
+                        System.out.println("Seeded Admin Governance test data: flagged transcripts, pending verifications, and disputed escrows.");
                 };
+        }
+
+        private void seedMentorUser(String email, String firstName, String lastName, String dept, String courseCode, String grade, String hash) {
+                User mentorUser = userRepository.findByEmail(email).orElseGet(() -> {
+                        User u = User.builder()
+                                .email(email)
+                                .firstName(firstName)
+                                .lastName(lastName)
+                                .password(passwordEncoder.encode("password"))
+                                .role(Role.STUDENT)
+                                .tokens(100)
+                                .points(250)
+                                .profession(dept)
+                                .build();
+                        return userRepository.save(u);
+                });
+
+                if (mentorVerificationRepository.findByUserIdAndCourseCodeAndStatus(mentorUser.getId(), courseCode, VerificationStatus.VERIFIED).isEmpty()) {
+                        MentorVerification mv = MentorVerification.builder()
+                                .user(mentorUser)
+                                .courseCode(courseCode)
+                                .gradeObtained(grade)
+                                .status(VerificationStatus.VERIFIED)
+                                .documentHash(hash)
+                                .verifiedAt(java.time.LocalDateTime.now())
+                                .build();
+                        mentorVerificationRepository.save(mv);
+                        System.out.println("Seeded verified mentor: " + mentorUser.getFirstName() + " for " + courseCode);
+                }
         }
 }

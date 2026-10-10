@@ -15,6 +15,7 @@ import TutorLeaderboard from './pages/TutorLeaderboard';
 import AdminDashboard from './pages/AdminDashboard';
 import VerifyCertificate from './pages/VerifyCertificate';
 import MaintenancePage from './pages/MaintenancePage';
+import MentorshipPage from './pages/MentorshipPage';
 import { getSystemSettings, getCurrentUser } from './services/api';
 import { AlertTriangle, X } from 'lucide-react';
 
@@ -125,6 +126,14 @@ const AppRoutes = ({ isMaintenance }) => {
         element={
           <ProtectedRoute>
             <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/mentorship"
+        element={
+          <ProtectedRoute>
+            <MentorshipPage />
           </ProtectedRoute>
         }
       />

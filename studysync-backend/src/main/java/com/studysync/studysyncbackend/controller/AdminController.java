@@ -21,6 +21,7 @@ public class AdminController {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final com.studysync.studysyncbackend.service.CourseService courseService;
+    private final com.studysync.studysyncbackend.service.NotificationService notificationService;
 
     // --- User Management ---
 
@@ -81,10 +82,16 @@ public class AdminController {
         return courseRepository.findById(id)
                 .map(course -> {
                     course.setApprovalStatus(ApprovalStatus.APPROVED);
-                    // We don't force publish here; the tutor might want to keep it detailed draft
-                    // until ready.
-                    // But if it was published and pending, it remains published.
                     courseRepository.save(course);
+                    if (course.getTutor() != null) {
+                        notificationService.sendNotification(
+                                course.getTutor(),
+                                "Course Approved! 🎉",
+                                "Your course '" + course.getTitle() + "' has been approved and is now live.",
+                                "COURSE_APPROVAL",
+                                "/course/" + course.getId()
+                        );
+                    }
                     return ResponseEntity.ok("Course approved");
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -98,6 +105,15 @@ public class AdminController {
                     course.setApprovalStatus(ApprovalStatus.REJECTED);
                     course.setPublished(false); // Force unpublish if rejected
                     courseRepository.save(course);
+                    if (course.getTutor() != null) {
+                        notificationService.sendNotification(
+                                course.getTutor(),
+                                "Course Needs Revision ⚠️",
+                                "Your course '" + course.getTitle() + "' was reviewed and rejected by the admin team.",
+                                "COURSE_REJECTION",
+                                "/tutor-studio"
+                        );
+                    }
                     return ResponseEntity.ok("Course rejected");
                 })
                 .orElse(ResponseEntity.notFound().build());

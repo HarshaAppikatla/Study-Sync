@@ -3,6 +3,8 @@ import { getMyCreatedCourses, deleteCourse } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, BarChart2, Users, DollarSign, Plus, Edit, Trash2, Video, Calendar, Clock } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import NotificationBell, { NotificationToast } from '../components/NotificationBell';
+import { useNotifications } from '../hooks/useNotifications';
 import { motion } from 'framer-motion';
 
 const TutorStudio = () => {
@@ -15,6 +17,9 @@ const TutorStudio = () => {
         avgRating: 0
     });
     const [user, setUser] = useState(null);
+
+    // ── Real-time notifications ──────────────────────────────────────────────
+    const { notifications, unreadCount, toasts, markRead, markAllRead, dismissToast } = useNotifications(user);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -53,6 +58,9 @@ const TutorStudio = () => {
 
     return (
         <div className="min-h-screen bg-[#f8fafc] flex font-sans">
+            {/* Live notification toasts */}
+            <NotificationToast toasts={toasts} onDismiss={dismissToast} />
+
             <Sidebar activeTab="tutor-studio" userRole="TUTOR" user={user} setActiveTab={() => { }} />
 
             <div className="flex-1 overflow-y-auto">
@@ -63,12 +71,20 @@ const TutorStudio = () => {
                         </h1>
                         <p className="text-gray-500 text-sm mt-1">Manage your content and track your performance.</p>
                     </div>
-                    <button
-                        onClick={() => navigate('/create-course')}
-                        className="bg-gray-900 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-black transition-all flex items-center gap-2 shadow-lg shadow-gray-200"
-                    >
-                        <Plus className="h-5 w-5" /> Create New Course
-                    </button>
+                    <div className="flex items-center gap-4">
+                        <NotificationBell
+                            notifications={notifications}
+                            unreadCount={unreadCount}
+                            onMarkRead={markRead}
+                            onMarkAllRead={markAllRead}
+                        />
+                        <button
+                            onClick={() => navigate('/create-course')}
+                            className="bg-gray-900 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-black transition-all flex items-center gap-2 shadow-lg shadow-gray-200"
+                        >
+                            <Plus className="h-5 w-5" /> Create New Course
+                        </button>
+                    </div>
                 </header>
 
                 <main className="max-w-7xl mx-auto px-8 py-8 space-y-8">

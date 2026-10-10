@@ -36,9 +36,10 @@ public class User implements UserDetails { // Implement UserDetails for Spring S
     private String firstName;
     private String lastName;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING) // JPA: Stores the enum value as a String (e.g., "STUDENT")
     @Column(nullable = false)
-    private Role role;
+    private Role role = Role.STUDENT;
 
     @Builder.Default
     @Column(nullable = false)
@@ -47,6 +48,10 @@ public class User implements UserDetails { // Implement UserDetails for Spring S
     private String avatarUrl;
     private String profession;
     private String bio;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private int tokens = 0; // Token balance for mentorship escrow system
 
     @Builder.Default
     private int currentStreak = 0;

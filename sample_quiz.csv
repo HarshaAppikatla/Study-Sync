@@ -1,0 +1,6 @@
+Question,Option 1,Option 2,Option 3,Option 4,CorrectOptionIndex
+What is the primary language used for Spring Boot?,Python,Java,C++,JavaScript,1
+In React what is the purpose of useState?,To handle side effects,To manage local component state,To navigate between pages,To perform API calls,1
+Which design pattern is used by React to group multiple elements?,Fragments,Portals,Context,Hooks,0
+What does SEO stand for?,Search Engine Optimization,Sequential Era Order,Simple Electronic Output,Systematic Engine Operation,0
+Which HTTP method is typically used to update data on a server?,GET,POST,PUT,DELETE,2

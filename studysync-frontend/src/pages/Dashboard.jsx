@@ -6,6 +6,8 @@ import Sidebar from '../components/Sidebar';
 import ProfileSettings from '../components/ProfileSettings';
 import StudentAnalytics from '../components/StudentAnalytics';
 import GamificationOverview from '../components/GamificationOverview';
+import NotificationBell, { NotificationToast } from '../components/NotificationBell';
+import { useNotifications } from '../hooks/useNotifications';
 import { Search, Filter, Sparkles, Bell, Trophy, Clock, Target, GraduationCap, Heart, BookOpen, CheckCircle, X, Trash2, BarChart2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -31,6 +33,9 @@ const Dashboard = () => {
     });
 
     const [wishlistIds, setWishlistIds] = useState(new Set());
+
+    // ── Real-time notifications ──────────────────────────────────────────────
+    const { notifications, unreadCount, toasts, markRead, markAllRead, dismissToast } = useNotifications(user);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -686,6 +691,9 @@ const Dashboard = () => {
 
     return (
         <div className="min-h-screen bg-[#f8fafc] flex font-sans selection:bg-indigo-500 selection:text-white relative overflow-hidden">
+            {/* Live notification toasts (top-right) */}
+            <NotificationToast toasts={toasts} onDismiss={dismissToast} />
+
             {/* Dynamic Background Orbs */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
                 <motion.div
@@ -729,10 +737,12 @@ const Dashboard = () => {
                             <p className="text-gray-500 text-sm">Welcome back, {user?.username?.split('@')[0] || 'Scholar'}!</p>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <button className="relative p-2 text-gray-400 hover:text-blue-600 transition-colors bg-gray-50 rounded-xl hover:bg-blue-50">
-                                <Bell className="h-5 w-5" />
-                                <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border border-white"></span>
-                            </button>
+                            <NotificationBell
+                                notifications={notifications}
+                                unreadCount={unreadCount}
+                                onMarkRead={markRead}
+                                onMarkAllRead={markAllRead}
+                            />
                         </div>
                     </header>
 

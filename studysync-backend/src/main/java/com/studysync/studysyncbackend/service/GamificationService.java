@@ -21,6 +21,7 @@ public class GamificationService {
     private final UserRepository userRepository;
     private final BadgeRepository badgeRepository;
     private final EarnedBadgeRepository earnedBadgeRepository;
+    private final NotificationService notificationService;
 
     /**
      * Adds the specified number of points to a user.
@@ -81,6 +82,13 @@ public class GamificationService {
 
             earnedBadgeRepository.save(Objects.requireNonNull(earnedBadge));
             log.info("Awarded badge '{}' ({}) to user ID {}", badge.getName(), badgeCode, userId);
+            notificationService.sendNotification(
+                    user,
+                    "New Badge Unlocked! 🏆",
+                    "Congratulations! You've earned the '" + badge.getName() + "' badge.",
+                    "BADGE_EARNED",
+                    "/leaderboard"
+            );
             return true;
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             // This handles the race condition where another thread saved it between our

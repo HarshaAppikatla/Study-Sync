@@ -1,0 +1,52 @@
+[
+    {
+        "text": "What is the main benefit of using React Hooks?",
+        "options": [
+            "It makes the application slower",
+            "It allows using state in functional components",
+            "It replaces JavaScript with HTML",
+            "It is only for class components"
+        ],
+        "correctOptionIndex": 1
+    },
+    {
+        "text": "Which tag is used for the largest heading in HTML?",
+        "options": [
+            "<h6>",
+            "<head>",
+            "<h1>",
+            "<header>"
+        ],
+        "correctOptionIndex": 2
+    },
+    {
+        "text": "What does CSS stand for?",
+        "options": [
+            "Creative Style Sheets",
+            "Computer Style Sheets",
+            "Cascading Style Sheets",
+            "Colorful Style Sheets"
+        ],
+        "correctOptionIndex": 2
+    },
+    {
+        "text": "Which of these is a Spring Boot annotation to create a REST controller?",
+        "options": [
+            "@Controller",
+            "@RestController",
+            "@Service",
+            "@Repository"
+        ],
+        "correctOptionIndex": 1
+    },
+    {
+        "text": "In Git, which command is used to send local changes to a remote repository?",
+        "options": [
+            "git pull",
+            "git commit",
+            "git push",
+            "git status"
+        ],
+        "correctOptionIndex": 2
+    }
+]

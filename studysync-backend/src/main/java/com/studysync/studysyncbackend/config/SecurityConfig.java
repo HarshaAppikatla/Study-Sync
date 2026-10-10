@@ -54,10 +54,14 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/files/**").permitAll() // Optional: if you want
                                                                                               // public upload/download
                                                 .requestMatchers("/ws/**").permitAll()
+                                                .requestMatchers("/ws-studysync/**").permitAll()
                                                 .requestMatchers("/api/certificates/verify/**").permitAll() // Public
                                                                                                             // verification
                                                 .requestMatchers("/api/test-email/**").permitAll() // TEMPORARY: For
                                                                                                    // testing email
+                                                .requestMatchers("/api/v1/mentorship/**").permitAll()
+                                                .requestMatchers("/api/v1/admin/mentorship/**").permitAll()
+                                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/system/settings").permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
