@@ -16,11 +16,15 @@ WORKDIR /app
 
 # Run as non-root user for security
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Pre-create uploads directory and grant complete ownership of /app to appuser
+RUN mkdir -p /app/uploads && chown -R appuser:appgroup /app && chmod -R 775 /app
+
 USER appuser
 
 EXPOSE 8080
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --chown=appuser:appgroup --from=build /app/target/*.jar app.jar
 
 ENV PORT=8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

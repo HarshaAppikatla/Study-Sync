@@ -24,12 +24,20 @@ public class FileStorageService {
     private final Path fileStorageLocation;
 
     public FileStorageService(@Value("${file.upload-dir:uploads}") String uploadDir) {
-        this.fileStorageLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
+        Path targetPath;
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            targetPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+            Files.createDirectories(targetPath);
         } catch (Exception ex) {
-            throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
+            try {
+                // Fallback to system temp directory if container working dir lacks write permissions
+                targetPath = Paths.get(System.getProperty("java.io.tmpdir"), "studysync-uploads").toAbsolutePath().normalize();
+                Files.createDirectories(targetPath);
+            } catch (Exception fallbackEx) {
+                throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
+            }
         }
+        this.fileStorageLocation = targetPath;
     }
 
     public String storeFile(MultipartFile file) {
