@@ -13,7 +13,12 @@
     <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-7.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
     <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" /></a>
-    <a href="https://jwt.io/"><img src="https://img.shields.io/badge/JWT-Secure_Auth-black?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT" /></a>
+    <a href="https://study-sync-liart-three.vercel.app"><img src="https://img.shields.io/badge/Vercel-Live_App-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" /></a>
+    <a href="https://studysync-backend-jlti.onrender.com"><img src="https://img.shields.io/badge/Render-Live_API-46E3B7?style=for-the-badge&logo=render&logoColor=black" alt="Render" /></a>
+  </p>
+
+  <p>
+    🌐 <strong>Live Application:</strong> <a href="https://study-sync-liart-three.vercel.app/">https://study-sync-liart-three.vercel.app/</a> &nbsp;|&nbsp; ⚡ <strong>Backend API:</strong> <a href="https://studysync-backend-jlti.onrender.com/api/system/settings">https://studysync-backend-jlti.onrender.com</a>
   </p>
   
   <h3>
