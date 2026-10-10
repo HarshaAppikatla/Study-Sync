@@ -99,8 +99,7 @@ public class RefreshTokenService {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             java.util.List<RefreshToken> tokens = refreshTokenRepository.findAllByUser(user);
-            tokens.forEach(token -> token.setRevoked(true));
-            refreshTokenRepository.saveAll(tokens);
+            refreshTokenRepository.deleteAll(tokens);
         }
     }
 }

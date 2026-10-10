@@ -20,38 +20,39 @@ public class UserActivityService {
 
     @Transactional
     public void logActivity(Long userId) {
-        LocalDate today = LocalDate.now();
+        try {
+            LocalDate today = LocalDate.now();
 
-        // 1. Log Activity Count
-        UserActivity activity = activityRepository.findByUserIdAndActivityDate(userId, today)
-                .orElse(UserActivity.builder()
-                        .user(userRepository.getReferenceById(Objects.requireNonNull(userId)))
-                        .activityDate(today)
-                        .count(0)
-                        .build());
-        if (activity.getId() == null) {
-            // ensure User is set correctly if using reference
+            // 1. Log Activity Count
+            UserActivity activity = activityRepository.findByUserIdAndActivityDate(userId, today)
+                    .orElseGet(() -> UserActivity.builder()
+                            .user(userRepository.getReferenceById(Objects.requireNonNull(userId)))
+                            .activityDate(today)
+                            .count(0)
+                            .build());
+
+            activity.setCount(activity.getCount() + 1);
+            activityRepository.save(activity);
+
+            // 2. Update Streak
+            User user = userRepository.findById(Objects.requireNonNull(userId)).orElse(null);
+            if (user != null) {
+                LocalDate lastLogin = user.getLastLoginDate();
+
+                if (lastLogin == null) {
+                    user.setCurrentStreak(1);
+                } else if (lastLogin.equals(today.minusDays(1))) {
+                    // Consecutive day
+                    user.setCurrentStreak(user.getCurrentStreak() + 1);
+                } else if (lastLogin.isBefore(today.minusDays(1))) {
+                    // Broken streak
+                    user.setCurrentStreak(1);
+                }
+                user.setLastLoginDate(today);
+                userRepository.save(user);
+            }
+        } catch (Exception e) {
+            // Activity tracking should never block authentication or user flow
         }
-
-        activity.setCount(activity.getCount() + 1);
-        activityRepository.save(activity);
-
-        // 2. Update Streak
-        User user = userRepository.findById(Objects.requireNonNull(userId)).orElseThrow();
-        LocalDate lastLogin = user.getLastLoginDate();
-
-        if (lastLogin == null) {
-            user.setCurrentStreak(1);
-        } else if (lastLogin.equals(today.minusDays(1))) {
-            // Consecutive day
-            user.setCurrentStreak(user.getCurrentStreak() + 1);
-        } else if (lastLogin.isBefore(today.minusDays(1))) {
-            // Broken streak
-            user.setCurrentStreak(1);
-        }
-        // If lastLogin equals today, do nothing to streak
-
-        user.setLastLoginDate(today);
-        userRepository.save(user);
     }
 }
