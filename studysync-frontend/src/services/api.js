@@ -17,7 +17,8 @@ api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
         if (token) {
-            config.headers.authorization = `Bearer ${token}`;
+            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers['authorization'] = `Bearer ${token}`;
         }
         return config;
     },
@@ -166,7 +167,13 @@ export const getWishlist = async () => {
 
 // --- Enrollment Context ---
 export const enrollInCourse = async (courseId) => {
-    const response = await api.post('/enrollments', { courseId });
+    const numericId = Number(courseId);
+    const idVal = isNaN(numericId) ? courseId : numericId;
+    const response = await api.post('/enrollments', { 
+        courseId: idVal,
+        course_id: idVal,
+        id: idVal 
+    });
     return response.data;
 };
 

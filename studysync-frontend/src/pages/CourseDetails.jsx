@@ -162,12 +162,30 @@ const CourseDetails = () => {
     }, [id]);
 
     const handleEnroll = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
+            return;
+        }
+
         setEnrollLoading(true);
         try {
-            await enrollInCourse(id);
+            const courseIdToEnroll = course?.id ? Number(course.id) : Number(id);
+            await enrollInCourse(courseIdToEnroll);
             setIsEnrolled(true);
         } catch (error) {
             console.error("Enrollment failed", error);
+            const message = error.response?.data?.message || (typeof error.response?.data === 'string' ? error.response.data : '') || '';
+            if (message.toLowerCase().includes('already enrolled') || error.response?.status === 409) {
+                // Already enrolled, mark active and continue
+                setIsEnrolled(true);
+            } else if (error.response?.status === 401 || message.toLowerCase().includes('authenticated')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                navigate('/login?redirect=' + encodeURIComponent(window.location.pathname));
+            } else {
+                alert(message || "Enrollment failed. Please ensure you are logged in and try again.");
+            }
         } finally {
             setEnrollLoading(false);
         }

@@ -17,7 +17,10 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
 
     @PostMapping
-    public ResponseEntity<EnrollmentResponseDto> enrollUser(@RequestBody EnrollmentRequestDto request) {
+    public ResponseEntity<?> enrollUser(@RequestBody(required = false) EnrollmentRequestDto request) {
+        if (request == null || request.getCourseId() == null) {
+            return ResponseEntity.badRequest().body("Course ID is required for enrollment.");
+        }
         return ResponseEntity.ok(enrollmentService.enrollUser(request.getCourseId()));
     }
 

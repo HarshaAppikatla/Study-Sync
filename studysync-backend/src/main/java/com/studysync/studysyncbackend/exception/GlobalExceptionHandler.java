@@ -38,7 +38,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ApiError> handleIllegalStateException(IllegalStateException ex) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+        HttpStatus status = ex.getMessage() != null && ex.getMessage().toLowerCase().contains("authenticated")
+                ? HttpStatus.UNAUTHORIZED
+                : HttpStatus.BAD_REQUEST;
+        return buildErrorResponse(status, ex.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)
