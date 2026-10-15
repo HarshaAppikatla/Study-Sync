@@ -34,6 +34,9 @@ class GamificationServiceTest {
     @Mock
     private EarnedBadgeRepository earnedBadgeRepository;
 
+    @Mock
+    private com.studysync.studysyncbackend.service.NotificationService notificationService;
+
     @InjectMocks
     private GamificationService gamificationService;
 
@@ -68,7 +71,7 @@ class GamificationServiceTest {
 
         gamificationService.awardBadge(1L, "CODE1");
 
-        verify(earnedBadgeRepository, never()).save(Objects.requireNonNull(any(EarnedBadge.class)));
+        verify(earnedBadgeRepository, never()).save(any(EarnedBadge.class));
     }
 
     @Test

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllCourses, searchCourses, getWishlist, getMyEnrollments, getMyCreatedCourses, deleteCourse, getUserActivity, getRecommendations } from '../services/api';
+import { DEMO_COURSES } from '../services/mockCourses';
 import CourseCard from '../components/CourseCard';
 import Sidebar from '../components/Sidebar';
 import ProfileSettings from '../components/ProfileSettings';
@@ -148,9 +149,14 @@ const Dashboard = () => {
     const fetchRecommended = async () => {
         try {
             const data = await getRecommendations();
-            setRecommendedCourses(data);
+            if (Array.isArray(data) && data.length > 0) {
+                setRecommendedCourses(data);
+            } else {
+                setRecommendedCourses(DEMO_COURSES.slice(0, 4));
+            }
         } catch (error) {
             console.error("Failed to fetch recommended courses", error);
+            setRecommendedCourses(DEMO_COURSES.slice(0, 4));
         }
     };
 
@@ -177,9 +183,23 @@ const Dashboard = () => {
 
             const data = await searchCourses(params);
             console.log("Fetched courses:", data);
-            setCourses(data);
+            if (Array.isArray(data) && data.length > 0) {
+                setCourses(data);
+            } else if (!searchTerm && !filters.category && !filters.level && !filters.minPrice && !filters.maxPrice && !filters.isFree) {
+                setCourses(DEMO_COURSES);
+            } else {
+                setCourses(data || []);
+            }
         } catch (error) {
             console.error('Error searching courses:', error);
+            // Fallback to demonstration mock dataset
+            const filtered = DEMO_COURSES.filter(c => {
+                const matchesKeyword = !searchTerm || c.title.toLowerCase().includes(searchTerm.toLowerCase()) || c.description.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesCategory = !filters.category || c.category === filters.category;
+                const matchesLevel = !filters.level || c.level === filters.level;
+                return matchesKeyword && matchesCategory && matchesLevel;
+            });
+            setCourses(filtered);
         } finally {
             setLoading(false);
         }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCourseById, checkEnrollmentStatus, enrollInCourse, getWishlist, getModuleDiscussions, updateProgress, updateModuleProgress, getCurrentUser, getMyEnrollments, downloadCertificate } from '../services/api';
+import { DEMO_COURSES } from '../services/mockCourses';
 import { useWishlist } from '../hooks/useWishlist';
 import { Lock, Play, FileText, CheckCircle, AlertCircle, ArrowLeft, Heart, Star, User, BookOpen, RotateCcw, RotateCw, ChevronRight, Award } from 'lucide-react';
 import DiscussionThread from '../components/DiscussionThread';
@@ -149,6 +150,10 @@ const CourseDetails = () => {
                 }
             } catch (error) {
                 console.error("Failed to load course details", error);
+                const fallback = DEMO_COURSES.find(c => String(c.id) === String(id));
+                if (fallback) {
+                    setCourse(fallback);
+                }
             } finally {
                 setLoading(false);
             }

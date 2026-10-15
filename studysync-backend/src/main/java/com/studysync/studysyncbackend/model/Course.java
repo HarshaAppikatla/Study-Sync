@@ -69,10 +69,13 @@ public class Course {
     @Column(length = 2048)
     private String thumbnail;
 
+    @Column(name = "instructor")
+    private String instructor;
+
     // --- Relationships ---
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tutor_id", nullable = false)
+    @JoinColumn(name = "tutor_id", nullable = true)
     private User tutor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -88,5 +91,21 @@ public class Course {
     public void removeModule(Module module) {
         modules.remove(module);
         module.setCourse(null);
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.thumbnail = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return this.thumbnail;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setPrice(double price) {
+        this.price = BigDecimal.valueOf(price);
     }
 }

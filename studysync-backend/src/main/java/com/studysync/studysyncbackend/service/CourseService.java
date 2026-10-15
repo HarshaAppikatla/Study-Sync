@@ -254,12 +254,27 @@ public class CourseService {
     @Transactional(readOnly = true)
     public CourseResponseDto mapCourseToDto(Course course) {
         User tutor = course.getTutor();
-        TutorDto tutorDto = TutorDto.builder()
-                .id(tutor.getId())
-                .firstName(tutor.getFirstName())
-                .lastName(tutor.getLastName())
-                .email(tutor.getEmail())
-                .build();
+        TutorDto tutorDto = null;
+        if (tutor != null) {
+            tutorDto = TutorDto.builder()
+                    .id(tutor.getId())
+                    .firstName(tutor.getFirstName())
+                    .lastName(tutor.getLastName())
+                    .email(tutor.getEmail())
+                    .build();
+        } else if (course.getInstructor() != null) {
+            String[] parts = course.getInstructor().split(" ", 2);
+            tutorDto = TutorDto.builder()
+                    .firstName(parts[0])
+                    .lastName(parts.length > 1 ? parts[1] : "")
+                    .build();
+        }
+
+        String instructorName = course.getInstructor();
+        if (instructorName == null && tutor != null) {
+            instructorName = (tutor.getFirstName() + " " + (tutor.getLastName() != null ? tutor.getLastName() : "")).trim();
+        }
+
         return CourseResponseDto.builder()
                 .id(course.getId())
                 .title(course.getTitle())
@@ -267,6 +282,8 @@ public class CourseService {
                 .price(course.getPrice())
                 .isPublished(course.isPublished())
                 .thumbnail(course.getThumbnail())
+                .imageUrl(course.getThumbnail())
+                .instructor(instructorName)
                 .category(course.getCategory())
                 .level(course.getLevel())
                 .tutor(tutorDto)

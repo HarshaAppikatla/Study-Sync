@@ -21,6 +21,8 @@ public class CourseResponseDto {
     @JsonProperty("isPublished")
     private boolean isPublished;
     private String thumbnail;
+    private String imageUrl;
+    private String instructor;
     private String category;
     private String level;
     private TutorDto tutor;

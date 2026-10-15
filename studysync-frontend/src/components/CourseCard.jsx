@@ -15,11 +15,11 @@ const CourseCard = ({ course, onToggleCompare, isSelectedForCompare, isWishliste
             className={`group bg-white rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 overflow-hidden border ${isSelectedForCompare ? 'border-blue-600 ring-2 ring-blue-500/10' : 'border-gray-50/50'} flex flex-col h-full relative cursor-pointer`}
         >
             {/* Thumbnail Area - Ultra Compact */}
-            <div className={`h-32 relative overflow-hidden ${course.thumbnail ? '' : 'bg-gradient-to-br from-indigo-700 via-blue-600 to-purple-800'}`}>
-                {course.thumbnail ? (
+            <div className={`h-32 relative overflow-hidden ${(course.thumbnail || course.imageUrl) ? '' : 'bg-gradient-to-br from-indigo-700 via-blue-600 to-purple-800'}`}>
+                {(course.thumbnail || course.imageUrl) ? (
                     <div className="w-full h-full group-hover:scale-105 transition-transform duration-500">
                         <img
-                            src={course.thumbnail}
+                            src={course.thumbnail || course.imageUrl}
                             alt={course.title}
                             className="w-full h-full object-cover"
                             onError={(e) => {
@@ -92,11 +92,11 @@ const CourseCard = ({ course, onToggleCompare, isSelectedForCompare, isWishliste
                 <div className="flex items-center justify-between pt-3 border-t border-gray-50 mt-auto">
                     <div className="flex items-center">
                         <div className="h-6 w-6 rounded bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-[8px]">
-                            {(course.tutor?.firstName?.[0] || 'T')}
+                            {(course.instructor?.[0] || course.tutor?.firstName?.[0] || 'T')}
                         </div>
                         <div className="ml-2 flex flex-col">
                             <span className="text-[10px] text-gray-900 font-bold truncate max-w-[80px]">
-                                {course.tutor?.firstName || "Tutor"}
+                                {course.instructor || (course.tutor ? `${course.tutor.firstName} ${course.tutor.lastName || ''}`.trim() : "Tutor")}
                             </span>
                         </div>
                     </div>
